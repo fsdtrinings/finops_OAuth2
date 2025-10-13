@@ -1,0 +1,82 @@
+
+OneToMany Relationship
+
+
+class Employee
+{
+	@OneToOne
+	@JoinColumn()
+	private KYCDocument empDoc;
+	
+	@manyToOne(cascading ....)
+	@JoinColumn(name="projectid")   //FK
+	@JsonBackRef
+	Project project;
+
+}
+
+101   ->   22
+102   ->   23
+103   ->   22
+
+class KyCDocument
+{
+
+   // some properties
+}
+
+class Project
+{
+
+	@OneToMany
+	@mappedBy(name = "project")
+	@JsonManagedref
+	List<Employee> allWorkingEmploee;
+
+}
+
+22    -> 101,103 [Error]
+
+
+// ---------------------------
+
+// --------
+
+  Employee e = empRepo.getById(101);
+  Project p = projectRepo.getbyId(22);
+  
+  List<Employee> allWorkingEmployees = p.getAllEmployees() ; // internally exe SELECT Query
+  
+  allWorkingWEmployees.add(e); // exe update Query
+  
+  e.setProject(p);
+  
+  // -------------- Action ------
+  
+  Step 1	: 	Create ProjectController under the role of PM 
+  Step 2	:	create ProjectRepoo & Service classes 
+  Step 3	:	Implement project Save & get Operation
+  Step 4	:	Call update code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

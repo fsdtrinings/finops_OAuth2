@@ -1,0 +1,104 @@
+
+
+Response Entity 
+
+ HttpStatus code + Body 
+ 
+ 200 : 
+ 201 
+ 400
+ 404
+ 500
+ 
+ 
+ // ---- front end 
+ 
+ fetch("localhost:8080/api/employee/{empId}")
+ .then(res=>{
+    if(res.status == 201) { render employee details}
+    else if(res.status == 404) { render some error page}
+    else if(res.status == 500) { render exception page}
+ })
+ 
+ 
+ // ----------------------------------------------------------------------------------------------
+ 
+ 
+ EmployeeController  ---->> EmployeeService --->> EmployeeRepository
+                              --->> ProjectService --->> validationService
+                              -->> ValidationService
+                              ---->> EmployeeService -->> ValidationService
+                              
+ 
+ //--------------------------------------------------------------------------
+ 
+ Two implementation 
+ 1) Spring cache 
+ 
+ 2nd approach redis (X)
+ 
+ ---
+ 
+ Step 1) Start depedency of Spring cache 
+ 
+ Step 2) EnabaleCache through main class
+ 
+ Step 3) add some annotations over Service 
+            @Cacheable
+            @cacheEvit 
+ 
+ 
+ 
+ 
+ // -------------------------------------------------------------------------------------------
+ 
+ JPA cache 
+ 3 types 
+ 1) Ehcache (JCache)
+ 			RAM
+
+ 2) caffine(app)	RAM + Disk 
+
+ 3) y 		Cloud System 
+ 
+ // ----------------------------------------------------------------------------------------------
+ 
+ 									Hibernate Cache									Spring Cache 
+ 									
+ Purpose							it cache the Business							apply over method
+ 									Entity											so it cache the return
+ 																					String , Entity , DTO 
+ 																					
+ 																					
+ When Execute						Whenever Entity load							@cacheable over method
+ 
+ 									Session scope									Application Scope
+ 									
+ 									
+ 									
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

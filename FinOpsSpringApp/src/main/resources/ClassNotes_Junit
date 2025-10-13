@@ -1,0 +1,79 @@
+
+
+Stage - 1
+Service :- Write test for all Service layer class
+
+Stage - 2A
+Controller :-
+    initate the application context 
+     
+Stage - 2B
+@testData
+   - Create a temporary database (H2)
+   
+   
+Tools & API  
+   1) Junit - API for testing 
+   2) Mocking API - [Mockito , TestNG, ....]
+   +
+   3) Jacoco : Code coverage 
+   4) jacoco is integrated with sonarQube
+   
+// ----------------------------------------------------------------------------
+
+TDD approach 
+
+//------ 1) Junit & 2) Mockito
+//       3) Controller using Mockito 
+//       4) Mock Repository using H2 database  
+
+// -----------------------------------------------------------------------
+
+
+@ExtendsWith(.....)
+
+@Mock 
+@test 
+@InjectMock 
+@Disable 
+@Parametertest
+@description
+
+// --------
+
+Step 1: Added dependency in Pom.XML [Jacoco]
+              Add plugins in POm.XML , related to Jacoco(for index.html)
+              add plugin for sonar 
+              
+Step 2: create Junit test class
+
+Step 3: mvn clean install test verify
+         verify (optional) initiates the jacoco things
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
