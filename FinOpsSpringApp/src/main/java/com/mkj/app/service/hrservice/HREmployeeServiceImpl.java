@@ -1,7 +1,5 @@
 package com.mkj.app.service.hrservice;
 
-
-
 import java.util.List;
 import java.util.Optional;
 
@@ -16,125 +14,106 @@ import com.mkj.app.entity.KYCDocuments;
 import com.mkj.app.repository.hrrepo.DocumentRepository;
 import com.mkj.app.repository.hrrepo.HREmployeeRepository;
 
-
-
 @Service
-public class HREmployeeServiceImpl implements HrEmployeeService
-{
+public class HREmployeeServiceImpl implements HrEmployeeService {
 	@Autowired
 	HREmployeeRepository hrRepo;
-	
+
 	@Autowired
 	DocumentRepository docRepo;
 
 	@Override
 	public String saveEmployee(Employee e) {
-		Employee savedEmployee = hrRepo.save(e);
-		return savedEmployee.getEmpCode()+" "+savedEmployee.getEmpName()+" Saved";
+		if (e != null) {
+			Employee savedEmployee = hrRepo.save(e);
+			return savedEmployee.getEmpCode() + " " + savedEmployee.getEmpName() + " Saved";
+		} else {
+			throw new NullPointerException("Obj is null");
+		}
+
 	}
 
-	
-	@CacheEvict(value = "empCache",allEntries = true)
-	public void clearCache()
-	{
-		
+	@CacheEvict(value = "empCache", allEntries = true)
+	public void clearCache() {
+
 	}
-	
+
 	@Override
-	@Cacheable(value = "empCache" , key = "#code")
+	@Cacheable(value = "empCache", key = "#code")
 	public Employee getEmployee(int code) {
-		Employee savedEmployee = hrRepo.findById(code).get();
-		return savedEmployee;
+		if (code > 0) {
+			Employee savedEmployee = hrRepo.findById(code).orElse(null);
+			
+			if(savedEmployee != null)
+			{
+				return savedEmployee;
+			}
+			else
+			{
+				throw new NullPointerException("Employee "+code+" not found");
+			}
+		}
+		else
+		{
+			throw new IllegalArgumentException("Invalid Code");
+		}
 	}
 
 	@Override
 	@Transactional
 	public String uploadDocs(KYCDocuments docs) {
-		
+
 		KYCDocuments savedDocs = docRepo.save(docs);
-		return savedDocs.toString()+" Saved";
-		
+		return savedDocs.toString() + " Saved";
+
 	}
 
 	@Override
 	public KYCDocuments getDocs(int adharNumber) {
-		
-		Optional<KYCDocuments> savedDocs  = docRepo.findById(adharNumber);
+
+		Optional<KYCDocuments> savedDocs = docRepo.findById(adharNumber);
 		return savedDocs.get();
-				
+
 	}
 
 	@Override
 	@Transactional
-	public Employee linkDocumentsWithEmployee
-				(int adharNumber, int empCode) {
+	public Employee linkDocumentsWithEmployee(int adharNumber, int empCode) {
 
 		Employee savedEmployee = getEmployee(empCode);
-	
+
 		KYCDocuments doc = getDocs(adharNumber);
-			
+
 		savedEmployee.setEmpDocs(doc); // called update query for us
 		return savedEmployee;
-	
-		
-	}
 
+	}
 
 	@Override
 	public List<Employee> getAllEmployees() {
 		List<Employee> list = hrRepo.findAll();
-	
-			return list;
-		}
 
-
-	@Override
-	public List<Employee> getEmployeesByTechName(String techName)
-	{
-		return	hrRepo.findByTechName(techName);
-	}
-
-
-	@Override
-	public List<Employee> getEmployeeBySalaryRange(int s1, int s2) {
-	
-		List<Employee> list = hrRepo.findBySalaryBetween(s1, s2);
-	
 		return list;
 	}
 
+	@Override
+	public List<Employee> getEmployeesByTechName(String techName) {
+		return hrRepo.findByTechName(techName);
+	}
+
+	@Override
+	public List<Employee> getEmployeeBySalaryRange(int s1, int s2) {
+
+		List<Employee> list = hrRepo.findBySalaryBetween(s1, s2);
+
+		return list;
+	}
 
 	@Override
 	public Employee getEmployeeByAdharNumber(int adharNumber) {
 		Employee e = hrRepo.findByEmpDocsAdharNumber(adharNumber);
-		
+
 		return e;
 	}
-	
-	
-	
-	
-	
 
-	
-}//end class
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}// end class

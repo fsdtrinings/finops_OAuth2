@@ -50,13 +50,74 @@ Step 2: create Junit test class
 Step 3: mvn clean install test verify
          verify (optional) initiates the jacoco things
 
+//---------------------------------------------------------------------------------------
 
 
+@mock 
+
+@Injectmock
+
+@Service
+class EmployeeServiceImpl
+{
+
+        @Autowire
+        EmployeeRepository empRepo;
+ 
+        // some code to implement business objectives
+        public String doThings()
+        {
+              empRepo.save(....);
+        }
+}
 
 
+@ExtendsWith(...) // appply mockito framework in our class
+class EmployeeServiceImplTest
+{
+
+	@InjectMock
+	EmployeeServiceImpl service;
+	  // Rule , use Injecct mock over the class under test
+	// tells the Junit that inject the mock object into it
+	
+	@Mock
+	EmployeeRepository empRepo;// Fake object , Object behaviour 
+	 // which we want to Simulate 
+	// 1) use @Mock over Dependency
 
 
+	@test or @parameterzidTest
+	public void doThingsTest()
+	{
+	
+		// 1. Sample Input & Sample Output
+		
 
+		// 2. configure the test simulator / mockito Simulator [based on mockito framework]
+		
+		Mockito.when(Repository.xyz()).thenreturn(expectedReturns)
+		
+		// -------------------------------------------------------------------------------------
+		// 3.do testing using actual method
+		   service.doThings();
+	
+	// ---------------------------------------------------------------------------------------------------
+		//4. call assert statement
+			// assert.xyz() // assertEquals() , assertNotNull() , asserttThrows()
+	// ----------------------------------------------------------------------------------		
+	   //5. call Mockito.verify() statements
+	              // used to deep check the behaviour 
+	              // for exp : delete method should not be called [ Mockito.never()]
+	              [mockito.never()]
+	}
+
+}
+
+// never 
+// atleast(n)
+// atMost(n)
+// times(n)
 
 
 

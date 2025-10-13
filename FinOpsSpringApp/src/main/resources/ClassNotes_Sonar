@@ -1,0 +1,61 @@
+
+Prerequisite 
+---------------------
+1) JAVA_HOME =  installation path of java 
+2)MAVEN_HOME  = installation path of Maven 
+3) In Path : java_home/bin & Maven-home/bin   
+    must be set 
+  
+1) For code coverage Sonar internally using JACOCO its pluhgin we already added in POM.xml
+2) Also add Sonar plugin in POM.XML
+
+Go to Sonar installation directory location 
+for example 
+D:\setups\Sonar\sonarqube-25.9.0.112764\sonarqube-25.9.0.112764\bin\windows-x86-64
+
+and execute startSonar.bat file 
+(in case of windows)
+
+localhost:9000  		#default port of Sonar
+
+
+// -----------------------------------------------------------------------------------------
+after creating local project : extract the token and below maven command
+    
+    
+Sonar Token 	:		sqp_1deaa163127a2e46fd37f66436a1446f9f01bb4f
+
+mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=FinOpsSpringAps \
+  -Dsonar.projectName='FinOpsSpringAps' \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.token=sqp_1deaa163127a2e46fd37f66436a1446f9f01bb4f
+  
+
+#Step -1
+for installing jacoco 
+
+clean org.jacoco:jacoco-maven-plugin:prepare-agent install
+
+#Step-2
+Sonar login
+clean install sonar:sonar -Dsonar.login=sqp_1deaa163127a2e46fd37f66436a1446f9f01bb4f
+
+
+
+link commmand
+clean verify sonar:sonar -Dsonar.projectKey=FinOpsSpringAps -Dsonar.projectName='FinOpsSpringAps' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_1deaa163127a2e46fd37f66436a1446f9f01bb4f
+
+
+
+
+
+
+
+
+
+
+
+
+
+
