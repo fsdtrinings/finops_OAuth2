@@ -18,6 +18,22 @@ and execute startSonar.bat file
 
 localhost:9000  		#default port of Sonar
 
+// -------------------------------------------------------------------------------------------
+SonarQube is the code Quality , Test coverable & Security & maintainability 
+it is a Static code reviewer
+What it does 
+
+1) Code Quality 		:		tell us duplicate code , unused variables or extra looping or untilized resources etc
+2) Test Coverage		:		test coverage , means how much code covered in junit test
+3) bad practice code 
+
+So by default it is available on port : 9000
+maven must be installed 
+supported java version
+
+and in order to work with Sonar : Sonar server must be up & running
+  
+
 
 // -----------------------------------------------------------------------------------------
 after creating local project : extract the token and below maven command
