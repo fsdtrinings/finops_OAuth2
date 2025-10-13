@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Description;
 
 import com.mkj.app.entity.Employee;
 
+/* This is the test of Basic*/
 class DummyServiceTest {
 
 	
@@ -108,10 +109,10 @@ class DummyServiceTest {
 
 	@ParameterizedTest
 	@ValueSource(ints = {-8500,0,10000,18000})
-	@Test
+	//@Test // 1st Issue
 	@Description("this test will throw a IllegalArg Exception if Employee salary is less than 0 or greater than 10000")
 
-	@Disabled
+	//@Disabled
 	void testGetSalaryByUser_EmployeeSalaryIfSalaryOutofbound(int salary)
 	{
 		// Sample input 
@@ -121,10 +122,11 @@ class DummyServiceTest {
 		
 		IllegalArgumentException e = assertThrows
 				(IllegalArgumentException.class, () -> service.getSalaryByUser(sampleEmployee));
+		    /// checking different statement
+		//assertEquals("Employee Salary is less than 0", e.getMessage());
 		
-		assertEquals("Employee Salary is less than 0", e.getMessage());
-
-	
+		assertEquals("Employee Salary is outofbound", e.getMessage());
+		
 	}
 	
 }//end test class

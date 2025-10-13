@@ -20,7 +20,8 @@ public class DummyService {
 		if(e != null)
 		{
 			 salary = e.getSalary();
-			 if(salary<0 && salary > 10000)
+			 // logic was wrong , used && instead of ||
+			 if(salary<=0 || salary >= 10000)
 			 {
 				 throw new IllegalArgumentException("Employee Salary is outofbound");
 			 }
