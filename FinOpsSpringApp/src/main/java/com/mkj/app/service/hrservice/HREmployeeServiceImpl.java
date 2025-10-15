@@ -23,11 +23,14 @@ public class HREmployeeServiceImpl implements HrEmployeeService {
 	DocumentRepository docRepo;
 
 	@Override
+	@Transactional
 	public String saveEmployee(Employee e) {
 		if (e != null) {
-			Employee savedEmployee = hrRepo.save(e);
-			return savedEmployee.getEmpCode() + " " + savedEmployee.getEmpName() + " Saved";
-		} else {
+			Employee savedEmployee = hrRepo.save(e); // 3000
+			int salary = e.getSalary();
+			//savedEmployee.setSalary(salary+999);
+			return savedEmployee.getEmpCode() + " Salary "+savedEmployee.getSalary()+ " Saved";
+		} else {                                             // 3000
 			throw new NullPointerException("Obj is null");
 		}
 

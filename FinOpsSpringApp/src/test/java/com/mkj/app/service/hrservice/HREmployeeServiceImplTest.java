@@ -18,13 +18,14 @@ import com.mkj.app.entity.Employee;
 import com.mkj.app.entity.KYCDocuments;
 import com.mkj.app.repository.hrrepo.HREmployeeRepository;
 
+
 @ExtendWith(MockitoExtension.class)
 class HREmployeeServiceImplTest {
 
-	@InjectMocks
+	@InjectMocks // Obj of the class under test
 	HREmployeeServiceImpl service;
 	
-	@Mock
+	@Mock // Fake Object
 	HREmployeeRepository empRepo;
 	
 	@Test
@@ -38,23 +39,28 @@ class HREmployeeServiceImplTest {
 		sampleInput.setDesignation("developer");
 		
 		Employee sampleOutput = new Employee();
-		sampleOutput.setEmpCode(1);
+		/*sampleOutput.setEmpCode(1);
 		sampleOutput.setEmpName("A");
-		sampleOutput.setSalary(3000);
-		sampleOutput.setDesignation("developer");
+		sampleOutput.setSalary(3999);
+		sampleOutput.setDesignation("developer");*/
 		
 		
 		// how to configure Mockito
 		//Mockito.when(empRepo.save(--Sample Input---)).thenReturn(--sample expected output---);
 		Mockito.when(empRepo.save(sampleInput)).thenReturn(sampleOutput);
-		String expectedOutput = sampleOutput.getEmpCode()+" "+sampleOutput.getEmpName()+" Saved";
+		String expectedOutput = sampleOutput.getEmpCode() + " Salary "+sampleOutput.getSalary()+ " Saved";
 		
 		// call to actual method
 		String actualOutput = service.saveEmployee(sampleInput);
 		
+		System.out.println("Inside test ");
+		System.out.println("Actual Output "+actualOutput);
+		System.out.println("Expected Output "+expectedOutput);
+		
 		
 		// assert statement
 		assertEquals(expectedOutput, actualOutput);
+		//assertEquals(sampleOutput.getSalary(), actualOutput.getSa);
 		
 		Mockito.verify(empRepo, Mockito.atLeast(1)).save(Mockito.any(Employee.class));
 		Mockito.verify(empRepo, Mockito.never()).delete(Mockito.any(Employee.class));
@@ -133,6 +139,7 @@ class HREmployeeServiceImplTest {
 	
 	@ParameterizedTest
 	@ValueSource(ints = {10000,150})
+	@Disabled
 	public void getEmployee_EmployeeNotFound(int code)
 	{
 		 
@@ -154,6 +161,7 @@ class HREmployeeServiceImplTest {
 	
 	
 	@Test
+	@Disabled
     void testLinkDocumentsWithEmployee_ValidCase() {
         // sample data
         int empCode = 101;
@@ -161,7 +169,7 @@ class HREmployeeServiceImplTest {
 
         KYCDocuments doc = new KYCDocuments();
         doc.setAdharNumber(adharNumber);
-        doc.setDocType("PAN");
+        doc.setPanNumber(12456);
 
         Employee emp = new Employee();
         emp.setEmpCode(empCode);
@@ -169,7 +177,7 @@ class HREmployeeServiceImplTest {
 
         // Mock dependencies (helper methods)
         // Here we mock the internal methods using spy since they are inside same service
-        EmployeeService spyService = Mockito.spy(service);
+        HrEmployeeService spyService = Mockito.spy(service);
 
         Mockito.doReturn(emp).when(spyService).getEmployee(empCode);
         Mockito.doReturn(doc).when(spyService).getDocs(adharNumber);

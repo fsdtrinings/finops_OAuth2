@@ -1,5 +1,6 @@
 package com.mkj.app.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mkj.app.entity.Employee;
 import com.mkj.app.entity.KYCDocuments;
+import com.mkj.app.entity.ResponseDTO;
+import com.mkj.app.entity.ResponseEmployeeDTO;
 import com.mkj.app.repository.hrrepo.HREmployeeRepository;
 import com.mkj.app.service.hrservice.HrEmployeeService;
 
@@ -38,11 +41,13 @@ public class HREmployeeController {
 	}
 
 	@PostMapping("/employee")
-	public String insertEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<ResponseDTO> insertEmployee(@RequestBody Employee employee) {
 
 		String str = hrService.saveEmployee(employee);
 
-		return str;
+		ResponseDTO dto = new ResponseDTO();
+		dto.setMsg(str);
+		return new ResponseEntity<ResponseDTO>(dto,HttpStatus.OK);
 	}
 
 	public ResponseEntity<String> deleteEmployeeRecord(@PathVariable int code) {
@@ -62,11 +67,23 @@ public class HREmployeeController {
 			})
 
 	@GetMapping("/employee/{code}")
-	public ResponseEntity<?> getEmployeebyId(
+	public ResponseEntity<ResponseEmployeeDTO> getEmployeebyId(
 			@Parameter(description = "Provoide unique employee code", example = "1") @PathVariable int code) {
 		Employee savedEmployee = hrService.getEmployee(code);
 
-		return new ResponseEntity<Employee>(savedEmployee, HttpStatus.OK);
+		ResponseEmployeeDTO dto = convertToDTO(savedEmployee);
+				
+		return new ResponseEntity<ResponseEmployeeDTO>(dto, HttpStatus.OK);
+	}
+	
+	
+	public ResponseEmployeeDTO convertToDTO(Employee e)
+	{
+		ResponseEmployeeDTO dto = new ResponseEmployeeDTO();
+		dto.setId(e.getEmpCode());
+		dto.setName(e.getEmpName());
+		
+		return dto;
 	}
 
 	@PostMapping("/kycdocs")
@@ -90,9 +107,15 @@ public class HREmployeeController {
 	}
 
 	@GetMapping("/employees")
-	public ResponseEntity<List<Employee>> getAllEmployee() {
-		List<Employee> list = hrService.getAllEmployees();
-		return new ResponseEntity<List<Employee>>(list, HttpStatus.OK);
+	public ResponseEntity<List<ResponseEmployeeDTO>> getAllEmployee() {
+		List<Employee> rawlist = hrService.getAllEmployees();
+		
+		List<ResponseEmployeeDTO> dtoList = new ArrayList<>();
+		for (Employee e : rawlist) {
+			dtoList.add(convertToDTO(e));
+		}
+		
+		return new ResponseEntity<List<ResponseEmployeeDTO>>(dtoList, HttpStatus.OK);
 	}
 
 	// 8085/hr/employee/techname?tn=aws

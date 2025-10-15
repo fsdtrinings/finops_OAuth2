@@ -119,8 +119,26 @@ class EmployeeServiceImplTest
 // atMost(n)
 // times(n)
 
+// ---------------------------------------------------------------------------------------------
+
+@SpringBootTest
+@..........Configuretest
+
+@Mockbean 
 
 
+@Autowire
+MockMvc // cleint agent like POSTMAN or Swagger
+  -> perform(httpmethodName(url))
+POST : 
+Request data is a JSON 
+{
+
+    "empName":"abcdefg",
+    "techName":"Java",
+    "designation":"developer",
+    "salary":1000
+}
 
 
 
